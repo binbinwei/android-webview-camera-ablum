@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>test</title>
+</head>
+<body>
+<input  type="file" capture="camera" accept="image/*" name="image">
+<img id= "image1" src="" style="width:30%;margin-top: 20px" /></p>
+
+<p id="ptext" width="100" height="100"></p>
+<script>
+function sendInfoToAndroid(){
+   window.network.openPhtoto();
+}
+function showInfoFromJava(imageUri){
+
+  document.getElementById('image1').src=""+imageUri;
+  document.getElementById('ptext').innerHTML= ''+imageUri;
+}
+
+
+
+
+</script>
+</body>
+
+</html>
