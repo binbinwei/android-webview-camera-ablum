@@ -1,29 +1,69 @@
 <!DOCTYPE html>
 <html>
-<head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>test</title>
+<head data-page="Tw_Entrust_Post_Page" data-kw="" data-ppc="" data-new-ppc="" data-soj-php="">
+    <meta charset="utf-8">
+    <meta name="format-detection" content="telephone=no">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0,minimum-scale=1.0,user-scalable=no,minimal-ui">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta content="yes" name="apple-touch-fullscreen">
+    <meta name="applicable-device" content="mobile">
+    <title>wbb</title>
+    <link rel="stylesheet" rev="stylesheet" href="up.css" type="text/css">
+
 </head>
 <body>
-<input  type="file" capture="camera" accept="image/*" name="image">
-<img id= "image1" src="" style="width:30%;margin-top: 20px" /></p>
 
-<p id="ptext" width="100" height="100"></p>
-<script>
-function sendInfoToAndroid(){
-   window.network.openPhtoto();
-}
-function showInfoFromJava(imageUri){
+<!-- 业主说&房源图片 -->
+  <section class="other_wrap none-" id="other_wrap">
+    <div class="other-item">
+        <p class="item-tit"><label>房源图</label>更好展示您的房源</p>
+        <div class="upload-wrap" id="roomImgWrap">
+            <div class="img-upload-mod upImgBox">
+                <form>
+                    <div class="up-img-box up-img-list">
+                        <div class="file-button fileButton">
+                            <i class="cross"></i>
+                            <input type="file" class="opacity0 uploadBtn" multiple="multiple" accept="image/jpeg">
+                        </div>
+                    </div>
+                    <!--<div class="msg msg-hide errorMsg"><i class="fx-icon-result icon-fail"></i><span>错误提示</span></div>-->
+                    <!--<div class="hide imgmsg">注：图片较大,正在压缩上传,需耗时5-10秒</div>-->
+                </form>
+            </div>
 
-  document.getElementById('image1').src=""+imageUri;
-  document.getElementById('ptext').innerHTML= ''+imageUri;
-}
+            <!-- 图片浏览 -->
+            <div class="picpopu">
+                <div class="swipe-img swipeImg">
+                    <div class="swipe-wrap-img wrapImg">
+                    </div>
+                </div>
+                <div class="pichead"><i class="i_global i-detele"></i><span class="p_current">1</span>/<span class="p_total"></span><i class="i_global i_close"></i></div>
+            </div>
+        </div>
+    </div>
+</section>
 
 
 
+<script type="text/javascript" src="./swipe.js"></script>
+<script type="text/javascript" src="./Zepto.js"></script>
+<script type="text/javascript" src="./up.js"></script>
 
+<script type="text/javascript">
+        userTouch.compressUpload["#roomImgWrap" || "0"] = new userTouch.CompressUpload({
+            wrapperSlter : "#roomImgWrap",
+            maxNum       : +"10"   || 10,     // 一共可以上传多少张
+            uploadUrl    : "http://upd1.ajkimg.com/upload" || 'http://upd1.ajkimg.com/upload',
+            maxWidth     : ""|| 640,    // 图片的最大宽度，超出会压缩
+            maxHeight    : ""|| 640,    // 图片的最大高度，超出会压缩
+            onceMaxNum   : "1"           // 一次性最多同时上传多少张
+        });
 </script>
-</body>
 
-</html>
+
+
+<button type="button">扫码</button>
+<p >扫码结果：</p>
+
+
+</body></html>

@@ -1,0 +1,132 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8">
+    <meta name="format-detection" content="telephone=no">
+    <meta name="viewport"
+          content="width=device-width, initial-scale=1.0, maximum-scale=1.0,minimum-scale=1.0,user-scalable=no,minimal-ui">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta content="yes" name="apple-touch-fullscreen">
+    <meta name="applicable-device" content="mobile">
+    <title>图片上传</title>
+</head>
+<body>
+<content tag="page-content">
+    <!-- 主要内容区 -->
+    <div class="content">
+        <div class="block clearfix">
+            <div class="block-content block-content-narrow">
+                <form id="myform" class="js-validation-bootstrap form-horizontal" method="post"
+                      action="http://10.25.1.39.:8083/oyys-mobile-web/figure/add"
+                      enctype="multipart/form-data">
+                    <div class="form-group">
+                        <label class="col-md-4 control-label" for="contentCode">内容编码</label>
+                        <div class="col-md-7">
+                            <input class="form-control" type="text" id="contentCode"
+                                   name="contentCode" style="width: 50%" placeholder="请输入内容编码">
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="col-md-4 control-label">轮播图片</label>
+                        <div class="col-md-7">
+                            <div class="a-upload">
+                                <input type="file" name="file" id="carouselIcon"
+                                       onchange="checkPicture(this);" multiple/>
+
+                            </div>
+
+                            <p>
+                            <div id="localImag"></div>
+                            </p>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <div class="form-group clearfix">
+                            <div class="col-md-8 col-md-offset-4">
+                                <button class="btn btn-sm btn-primary" type="submit">提交</button>
+                            </div>
+                        </div>
+                    </div>
+                </form>
+            </div>
+
+        </div>
+        <canvas id="canvas01"></canvas>
+    </div>
+</content>
+
+<content>
+    <script>
+    window.URL=window.URL||window.webkitURL;
+    var localImag = document.getElementById("localImag");
+    var convas = document.getElementById("canvas01");
+    var ht = convas.getContext("2d");
+
+    convas.width = 200;
+    convas.height = 200;
+
+     function checkPicture(obj){
+         var files = obj.files;
+         var img = new Image();
+         img.width = 200;
+        if(window.URL){
+            img.src = window.URL.createObjectURL(files[0]);
+            img.onload = function(e){
+                window.URL.revokeObjectURL(this.src);//方便引用无效回收
+                ht.drawImage(img,0,0,convas.width,convas.height);
+                var imgdata = convas.toDataURL("image/png");
+                //将canvas转化成Blob对象
+                var imgobj = new Image();
+                var blob =dataURLtoBlob(imgdata);
+                var url = window.URL.createObjectURL(blob);
+                imgobj.onload = function(e){
+                    window.URL.revokeObjectURL(this.src);
+                }
+                imgobj.src= url;
+                localImag.appendChild(imgobj);
+            }
+        }else{
+            //opera不支持createObjectURL/revokeObjectURL方法。需要用FileReader对象来处理
+            var reader = new FileReader();
+            reader.readAsDataURL(files[0]);
+            reader.onload = function(){
+                img.src = this.result;
+                img.width = 200;
+                img.id="img01";
+                divimg1.appendChild(img);
+            }
+        }
+
+     }
+    function dataURLtoBlob(dataurl) {
+        var arr = dataurl.split(','),
+                mime = arr[0].match(/:(.*?);/)[1],
+                bstr = atob(arr[1]), n = bstr.length, u8arr = new Uint8Array(n);
+        while(n--){
+            u8arr[n] = bstr.charCodeAt(n);
+        }
+        return new Blob([u8arr], {type:mime});
+    }
+
+    </script>
+
+    <button id="btn" type="button" onclick="startScan()">扫码</button>
+    <div id="content">内容显示</div>
+    <p id="textp"></p>
+
+    <!-- 扫描二维码-->
+    <script>
+        function startScan(){
+          window.scan.openScan();
+        }
+
+        function receptionResult(arg){
+              document.getElementById("content").innerHTML =
+         ("<br\>"+arg);
+         }
+    </script>
+</content>
+</body>
+
+</html>
