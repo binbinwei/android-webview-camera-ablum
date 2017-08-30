@@ -47,6 +47,7 @@ public class MainActivity extends AppCompatActivity {
         settings.setJavaScriptEnabled(true);
         settings.setSupportZoom(true);
         settings.setBlockNetworkImage(false);
+        settings.setAllowFileAccess(true);//跨域问题
         mWebView.addJavascriptInterface(this,"scan");
         mWebView.loadUrl("file:///android_asset/addfigure.html");
         /**
@@ -192,8 +193,11 @@ public class MainActivity extends AppCompatActivity {
                 mUploadMessage = null;
             }
         }else if(requestCode == SCAN_CODE){
-           String arg = data.getStringExtra("result");
+            if(data!=null){
+            String arg = data.getStringExtra("result");
             mWebView.loadUrl("javascript:receptionResult('" +arg + "')");
+            }
+           
         }
     }
     @TargetApi(Build.VERSION_CODES.LOLLIPOP)
